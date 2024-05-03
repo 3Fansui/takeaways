@@ -12,3 +12,7 @@ sky:
     access-key-id: LTAI5tAuvc4GdLpEgQ7xLHuS
     access-key-secret: bQlMqogKgJpjM1upjxhcz3lq90SsCU
     bucket-name: webtlia1
+  redis:
+    host: localhost
+    port: 6379
+    database: 10
