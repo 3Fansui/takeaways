@@ -16,24 +16,7 @@
         where id = #{id}
     </update>
 
-    <select id="pageQuery">
-        select s.*,c.name categoryName
-        from setmeal s
-        left join category c
-        on s.category_id = c.id
-        <where>
-            <if test="name != null">
-                and s.name like concat('%',#{name},'%')
-            </if>
-            <if test="status != null">
-                and s.status = #{status}
-            </if>
-            <if test="categoryId != null">
-                and s.category_id = #{categoryId}
-            </if>
-        </where>
-        order by s.create_time desc
-    </select>
+
 
     <insert id="insert" parameterType="Setmeal" useGeneratedKeys="true" keyProperty="id">
         insert into setmeal
@@ -67,5 +50,26 @@
                 and category_id = #{categoryId}
             </if>
         </where>
+    </select>
+
+    <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
+
+            select s.*,c.name categoryName
+            from setmeal s
+            left join category c
+            on s.category_id = c.id
+            <where>
+                <if test="name != null">
+                    and s.name like concat('%',#{name},'%')
+                </if>
+                <if test="status != null">
+                    and s.status = #{status}
+                </if>
+                <if test="categoryId != null">
+                    and s.category_id = #{categoryId}
+                </if>
+            </where>
+            order by s.create_time desc
+
     </select>
 </mapper>
