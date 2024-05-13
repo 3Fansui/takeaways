@@ -10,5 +10,17 @@
             #{dishId}
         </foreach>
     </select>
+    <select id="queryConnect" resultType="java.lang.Integer">
+        select count(setmeal_id)
+        from sky_take_out.setmeal_dish s where s.dish_id=#{id};
+    </select>
+    <insert id="insertBatch" parameterType="list">
+        insert into sky_take_out.setmeal_dish
+        (setmeal_id,dish_id,name,price,copies)
+        values
+        <foreach collection="setmealDishes" item="sd" separator=",">
+            (#{sd.setmealId},#{sd.dishId},#{sd.name},#{sd.price},#{sd.copies})
+        </foreach>
+    </insert>
 
 </mapper>

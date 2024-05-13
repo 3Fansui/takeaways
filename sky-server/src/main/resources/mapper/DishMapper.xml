@@ -1,77 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sky.mapper.DishMapper">
-
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sky.entity.Dish" useGeneratedKeys="true">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into sky_take_out.dish
-        (name,category_id
-        ,price,image,description
-        ,status,create_time,update_time
-        ,create_user,update_user)
-        values (#{name,jdbcType=VARCHAR},#{categoryId,jdbcType=BIGINT}
-               ,#{price,jdbcType=DECIMAL},#{image,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR}
-               ,#{status,jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP}
-               ,#{createUser,jdbcType=BIGINT},#{updateUser,jdbcType=BIGINT})
+        (name, category_id, price, image, description, status, create_time, update_time, create_user, update_user)
+        values
+            (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
     </insert>
 
-    <delete id="delectByIds">
-        delete from sky_take_out.dish where id in 
-        <foreach collection="ids" open="(" close=")" separator="," item="id">
-            #{id}
-        </foreach>
-    </delete>
 
-    <select id="pageQuery" resultType="com.sky.vo.DishVO">
-
-        select d.*,c.name categoryName from sky_take_out.dish d left join sky_take_out.category c on d.category_id = c.id
-
-        <where>
-
-            <if test="name !=null">
-                and d.name like concat('%',#{name},'%')
-            </if>
-            <if test="categoryId!= null">
-                and  category_id=#{categoryId}
-            </if>
-            <if test="status != null">
-                and d.status=#{status}
-            </if>
-        </where>
-        order by d.create_time desc
-    </select>
 
     <update id="update">
         update sky_take_out.dish
         <set>
             <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
+                name = #{name},
             </if>
             <if test="categoryId != null">
-                category_id = #{categoryId,jdbcType=BIGINT},
+                category_id = #{categoryId},
             </if>
             <if test="price != null">
-                price = #{price,jdbcType=DECIMAL},
+                price = #{price},
             </if>
             <if test="image != null">
-                image = #{image,jdbcType=VARCHAR},
+                image = #{image},
             </if>
             <if test="description != null">
-                description = #{description,jdbcType=VARCHAR},
+                description = #{description},
             </if>
             <if test="status != null">
-                status = #{status,jdbcType=INTEGER},
+                status = #{status},
             </if>
-
             <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
+                update_time = #{updateTime},
             </if>
-
             <if test="updateUser != null">
-                update_user = #{updateUser,jdbcType=BIGINT},
+                update_user = #{updateUser}
             </if>
         </set>
-            where id = #{id}
+        where id = #{id}
     </update>
 
+
+
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from sky_take_out.dish
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+        </where>
+    </select>
+    <select id="list" resultType="com.sky.entity.Dish">
+        select * from sky_take_out.dish
+        <where>
+            <if test="name != null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="pageQuery" resultType="com.sky.vo.DishVO">
+        select d.*, c.name as categoryName from sky_take_out.dish d left outer join sky_take_out.category c on d.category_id = c.id
+        <where>
+            <if test="name != null">
+                and d.name like concat('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                and d.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and d.status = #{status}
+            </if>
+        </where>
+        order by d.create_time desc
+    </select>
 </mapper>

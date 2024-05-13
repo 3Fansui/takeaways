@@ -9,15 +9,16 @@ import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DishMapper {
 
     /**
      * 根据分类id查询菜品数量
+     * 
      * @param categoryId
      * @return
      */
@@ -25,21 +26,24 @@ public interface DishMapper {
     Integer countByCategoryId(Long categoryId);
 
     /**
-     * 插入菜品数据
+     * 新增菜品
+     * 
      * @param dish
      */
     @AutoFill(value = OperationType.INSERT)
     void insert(Dish dish);
 
     /**
-     * 菜品分页查询
+     * 分页查询菜品
+     * 
      * @param dishPageQueryDTO
      * @return
      */
     Page<DishVO> pageQuery(DishPageQueryDTO dishPageQueryDTO);
 
     /**
-     * 根据主键查询菜品
+     * 根据id查询菜品
+     * 
      * @param id
      * @return
      */
@@ -47,22 +51,44 @@ public interface DishMapper {
     Dish getById(Long id);
 
     /**
-     * 根据主键删除菜品数据
+     * 删除菜品
+     * 
      * @param id
      */
     @Delete("delete from sky_take_out.dish where id = #{id}")
-    void delectByid(Long id);
+    void deleteById(Long id);
 
     /**
-     * 根据菜品id集合批量删除菜品
-     * @param ids
-     */
-    void delectByIds(List<Long> ids);
-
-    /**
-     * 根据id动态修改菜品数据
+     * 更新菜品
+     * 
      * @param dish
      */
     @AutoFill(value = OperationType.UPDATE)
     void update(Dish dish);
+
+    /**
+     * 根据分类id查询菜品
+     * 
+     * @param dish
+     * @return
+     */
+    List<Dish> list(Dish dish);
+
+    /**
+     * 根据套餐id查询菜品
+     * 
+     * @param setmealId
+     * @return
+     */
+    @Select("select a.* from sky_take_out.dish a left join sky_take_out.setmeal_dish b on a.id = b.dish_id where b.setmeal_id = #{setmealId}")
+    List<Dish> getBySetmealId(Long setmealId);
+
+    /**
+     * 根据条件统计菜品数量
+     * 
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map<String, Integer> map);
+
 }
