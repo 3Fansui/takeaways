@@ -59,7 +59,7 @@ public class SetmealController {
     }
 
     /**
-     * 删除套餐
+     * 批量删除套餐
      *
      * @param ids
      * @return
