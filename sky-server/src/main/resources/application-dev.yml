@@ -4,8 +4,8 @@ sky:
     host: localhost
     port: 3306
     database: sky_take_out
-    username: root
-    password: 123456
+    username: your_username  # 替换为您的MySQL用户名
+    password: your_password  # 替换为您的MySQL密码
 
   alioss:
     endpoint: oss-cn-hangzhou.aliyuncs.com
