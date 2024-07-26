@@ -8,18 +8,18 @@ sky:
     password: your_password  # 替换为您的MySQL密码
 
   alioss:
-    endpoint: oss-cn-hangzhou.aliyuncs.com
-    access-key-id: LTAI5tAuvc4GdLpEgQ7xLHuS
-    access-key-secret: bQlMqogKgJpjM1upjxhcz3lq90SsCU
-    bucket-name: webtlia1
+    endpoint: 
+    access-key-id:
+    access-key-secret: 
+    bucket-name:
   redis:
     host: localhost
     port: 6379
     database: 10
 
   wechat:
-    appid: wx58608aa07e3264c7
-    secret: 7f1c79e7d1a6c01161862105f53c6bfc
+    appid:
+    secret: 
     mchid:
     mchSerialNo:
     privateKeyFilePath:
